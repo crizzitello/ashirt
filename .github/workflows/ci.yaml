@@ -64,27 +64,11 @@ jobs:
             , linuxDeployQtPath: "export PATH=$PATH:/opt/Qt/6.3.0/gcc_64/libexec"
           }
         - {
-            name: "Mac-Qt5"
-            , os: macos-latest
-            , QT_VERSION: 5.15.2 , QT_INST_DIR: /Users/runner
-            , QT_STRING: "Qt5"
-            , extraCMakeConfig: "-DQT_DEFAULT_MAJOR_VERSION=5 -DNOTARIZE_AS=\"John Kennedy\""
-            , buildTarget: "--target package"
-          }
-        - {
             name: "Mac-Qt6"
             , os: macos-latest
             , QT_VERSION: 6.3.0 , QT_INST_DIR: /Users/runner
             , QT_STRING: "Qt6"
             , extraCMakeConfig: "-DQT_DEFAULT_MAJOR_VERSION=6 -DNOTARIZE_AS=\"John Kennedy\""
-            , buildTarget: "--target package"
-          }
-        - {
-            name: "Windows-Qt5", WIN_ARCH: "x64"
-            , os: windows-2019
-            , QT_VERSION: 5.15.2, QT_INST_DIR: "C:/", QTDIR: "C:/Qt/5.15.2/msvc2019_64", QT_ARCH: win64_msvc2019_64
-            , QT_STRING: "Qt5"
-            , extraCMakeConfig: "-G Ninja -DQT_DEFAULT_MAJOR_VERSION=5"
             , buildTarget: "--target package"
           }
         - {
@@ -146,6 +130,7 @@ jobs:
         if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update > /dev/null && sudo apt-get install -qqq libxcb-keysyms1-dev libxkbcommon-dev > /dev/null
         elif [ "$RUNNER_OS" == "Windows" ]; then
+            echo "githash=${{ needs.run-info.outputs.sha8 }}" >> $GITHUB_ENV
             choco install ninja --ignore-checksums
         fi
 
