@@ -35,6 +35,8 @@ class Settings : public QDialog {
   explicit Settings(HotkeyManager* hotkeyManager, QWidget* parent = nullptr);
   ~Settings();
 
+  /// show Overridden Show forces window to top
+  void show();
  private:
   /// buildUi creates the window structure.
   void buildUi();

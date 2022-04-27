@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
     }
     QApplication::setQuitOnLastWindowClosed(false);
 
-    auto window = new TrayManager(conn);
+    auto window = new TrayManager(nullptr, conn);
     rtn = app.exec();
     AppSettings::getInstance().sync();
     delete window;

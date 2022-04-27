@@ -15,6 +15,7 @@ class CreateOperation : public QDialog {
  public:
   explicit CreateOperation(QWidget *parent = nullptr);
   ~CreateOperation();
+  void show();
 
  private:
   void buildUi();

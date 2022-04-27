@@ -46,6 +46,9 @@ class PortingDialog : public QDialog {
   /// when Importing from a specific file)
   QString getPortPath();
 
+  /// show Overridden Show forces window to top.
+  void show();
+
  signals:
   /// portCompleted is called when an import or export finishes.
   /// @param path contains the import or export directory used

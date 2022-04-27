@@ -9,7 +9,7 @@
 class Screenshot : public QObject {
   Q_OBJECT
  public:
-  Screenshot(QObject* parent = 0);
+  Screenshot(QObject* parent = nullptr);
   void captureArea();
   void captureWindow();
 

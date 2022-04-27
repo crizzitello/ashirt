@@ -16,8 +16,8 @@ class HotkeyManager : public QObject {
   Q_OBJECT
 
  public:
-  HotkeyManager();
-  ~HotkeyManager();
+  HotkeyManager(QObject * parent = nullptr);
+  ~HotkeyManager() = default;
 
   /// GlobalHotkeyEvent provides names for all possible application-global hotkeys
   enum GlobalHotkeyEvent {
@@ -64,5 +64,5 @@ class HotkeyManager : public QObject {
 
  private:
   /// hotkeyManager is a reference to the raw hotkey manager, which a 3rd party manages.
-  UGlobalHotkeys* hotkeyManager;
+  UGlobalHotkeys* hotkeyManager = nullptr;
 };

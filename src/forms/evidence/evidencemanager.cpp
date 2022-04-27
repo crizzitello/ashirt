@@ -48,7 +48,11 @@ static QStringList columnNames() {
   return names;
 }
 
-EvidenceManager::EvidenceManager(DatabaseConnection* db, QWidget* parent) : QDialog(parent) {
+EvidenceManager::EvidenceManager(DatabaseConnection* db, QWidget* parent)
+    : QDialog(parent)
+    , db(db)
+    , evidenceTable(new QTableWidget(this))
+{
   this->db = db;
   buildUi();
   wireUi();
@@ -69,15 +73,20 @@ EvidenceManager::~EvidenceManager() {
   delete applyFilterButton;
   delete resetFilterButton;
   delete filterTextBox;
-  delete evidenceTable;
   delete loadingAnimation;
 
   delete gridLayout;
   stopReply(&uploadAssetReply);
 }
 
+void EvidenceManager::show()
+{
+    QDialog::show(); // display the window
+    raise(); // bring to the top (mac)
+    activateWindow(); // alternate bring to the top (windows)
+}
+
 void EvidenceManager::buildEvidenceTableUi() {
-  evidenceTable = new QTableWidget(this);
   evidenceTable->setContextMenuPolicy(Qt::CustomContextMenu);
   QStringList colNames = columnNames();
   evidenceTable->setColumnCount(colNames.length());

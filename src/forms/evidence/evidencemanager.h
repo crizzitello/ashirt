@@ -41,6 +41,9 @@ class EvidenceManager : public QDialog {
   explicit EvidenceManager(DatabaseConnection* db, QWidget* parent = nullptr);
   ~EvidenceManager();
 
+  /// show Overridden Show forces window to top
+  void show();
+
  private:
   /// buildUi constructs the window structure.
   void buildUi();

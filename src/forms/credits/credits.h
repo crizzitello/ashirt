@@ -19,6 +19,9 @@ class Credits : public QDialog {
   explicit Credits(QWidget *parent = nullptr);
   ~Credits();
 
+  /// show Overridden Show forces window to top
+  void show();
+
  public slots:
   void onReleasesUpdate(bool success, std::vector<dto::GithubRelease> releases);
 

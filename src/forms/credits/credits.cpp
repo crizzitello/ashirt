@@ -188,6 +188,13 @@ Credits::~Credits() {
   delete gridLayout;
 }
 
+void Credits::show()
+{
+    QDialog::show(); // display the window
+    raise(); // bring to the top (mac)
+    activateWindow(); // alternate bring to the top (windows)
+}
+
 void Credits::onReleasesUpdate(bool success, std::vector<dto::GithubRelease> releases) {
   if (!success) {
     return; //doesn't matter if this fails

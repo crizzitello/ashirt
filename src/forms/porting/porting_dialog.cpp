@@ -195,6 +195,13 @@ QString PortingDialog::getPortPath() {
   return portPath;
 }
 
+void PortingDialog::show()
+{
+    QDialog::show(); // display the window
+    raise(); // bring to the top (mac)
+    activateWindow(); // alternate bring to the top (windows)
+}
+
 void PortingDialog::doExport(porting::SystemManifest* manifest, const QString& exportPath) {
   porting::SystemManifestExportOptions options;
   options.exportDb = portEvidenceCheckBox->isChecked();

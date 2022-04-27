@@ -10,14 +10,14 @@
 #include "appsettings.h"
 #include "helpers/hotkeys/uglobalhotkeys.h"
 
-HotkeyManager::HotkeyManager() {
-  hotkeyManager = new UGlobalHotkeys();
+HotkeyManager::HotkeyManager(QObject * parent): QObject(parent) {
+  hotkeyManager = new UGlobalHotkeys(this);
   connect(hotkeyManager, &UGlobalHotkeys::activated, this, &HotkeyManager::hotkeyTriggered);
 }
 
-HotkeyManager::~HotkeyManager() { delete hotkeyManager; }
-
 void HotkeyManager::registerKey(const QString& binding, GlobalHotkeyEvent evt) {
+  if(binding.isEmpty())
+      return;
   hotkeyManager->registerHotkey(binding, size_t(evt));
 }
 
@@ -47,12 +47,7 @@ void HotkeyManager::enableHotkeys() {
 
 void HotkeyManager::updateHotkeys() {
   hotkeyManager->unregisterAllHotkeys();
-  auto regKey = [this](QString combo, GlobalHotkeyEvent evt) {
-    if (!combo.isEmpty()) {
-      registerKey(combo, evt);
-    }
-  };
-  regKey(AppConfig::getInstance().screenshotShortcutCombo, ACTION_CAPTURE_AREA);
-  regKey(AppConfig::getInstance().captureWindowShortcut, ACTION_CAPTURE_WINDOW);
-  regKey(AppConfig::getInstance().captureCodeblockShortcut, ACTION_CAPTURE_CODEBLOCK);
+  registerKey(AppConfig::getInstance().screenshotShortcutCombo, ACTION_CAPTURE_AREA);
+  registerKey(AppConfig::getInstance().captureWindowShortcut, ACTION_CAPTURE_WINDOW);
+  registerKey(AppConfig::getInstance().captureCodeblockShortcut, ACTION_CAPTURE_CODEBLOCK);
 }

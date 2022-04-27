@@ -10,8 +10,8 @@
 #include "hotkeymap.h"
 #include "uglobalhotkeys.h"
 
-UGlobalHotkeys::UGlobalHotkeys(QWidget *parent)
-    : QWidget(parent)
+UGlobalHotkeys::UGlobalHotkeys(QObject *parent)
+    : QObject(parent)
 {
 #if defined(Q_OS_LINUX)
     qApp->installNativeEventFilter(this);
@@ -27,7 +27,7 @@ UGlobalHotkeys::UGlobalHotkeys(QWidget *parent)
 
 bool UGlobalHotkeys::registerHotkey(const QString &keySeq, size_t id)
 {
-    return registerHotkey(UKeySequence(keySeq), id);
+    return registerHotkey(UKeySequence(keySeq, this), id);
 }
 
 #if defined(Q_OS_MAC)
@@ -208,7 +208,7 @@ void UGlobalHotkeys::regLinuxHotkey(const UKeySequence &keySeq, size_t id)
     UHotkeyData data;
     UKeyData keyData = QtKeyToLinux(keySeq);
 
-    xcb_keycode_t *keyC = xcb_key_symbols_get_keycode(X11KeySymbs, keyData.key);
+    auto keyC = xcb_key_symbols_get_keycode(X11KeySymbs, keyData.key);
 
     if (keyC == XCB_NO_SYMBOL) { // 0x0
         qWarning() << "Cannot find symbol";

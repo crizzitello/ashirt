@@ -56,6 +56,13 @@ Settings::~Settings() {
   delete closeWindowAction;
 }
 
+void Settings::show()
+{
+    QDialog::show(); // display the window
+    raise(); // bring to the top (mac)
+    activateWindow(); // alternate bring to the top (windows)
+}
+
 void Settings::buildUi() {
   gridLayout = new QGridLayout(this);
   _eviRepoLabel = new QLabel(tr("Evidence Repository"), this);

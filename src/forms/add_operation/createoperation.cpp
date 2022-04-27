@@ -23,6 +23,13 @@ CreateOperation::~CreateOperation() {
   stopReply(&createOpReply);
 }
 
+void CreateOperation::show()
+{
+    QDialog::show(); // display the window
+    raise(); // bring to the top (mac)
+    activateWindow(); // alternate bring to the top (windows)
+}
+
 void CreateOperation::buildUi() {
   gridLayout = new QGridLayout(this);
 
