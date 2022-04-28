@@ -29,14 +29,13 @@ class GetInfo : public QDialog {
   void buildUi();
   void wireUi();
   bool saveData();
-  void setActionButtonsEnabled(bool enabled);
-
   void showEvent(QShowEvent *evt) override;
 
+ signals:
+  void setActionButtonsEnabled(bool enabled);
  private slots:
   void submitButtonClicked();
   void deleteButtonClicked();
-
   void onUploadComplete();
 
  public:
@@ -46,16 +45,9 @@ class GetInfo : public QDialog {
  private:
   DatabaseConnection *db;
   qint64 evidenceID;
-
   QNetworkReply *uploadAssetReply = nullptr;
 
-  // Actions
-  QAction* closeWindowAction = nullptr;
-
   // Ui Components
-  QGridLayout* gridLayout;
-  QPushButton* deleteButton;
-  EvidenceEditor *evidenceEditor;
-  LoadingButton *submitButton;
-
+  EvidenceEditor *evidenceEditor = nullptr;
+  LoadingButton *submitButton = nullptr;
 };
