@@ -21,7 +21,7 @@ class EvidenceFilterForm : public QDialog {
 
  public:
   explicit EvidenceFilterForm(QWidget *parent = nullptr);
-  ~EvidenceFilterForm();
+  ~EvidenceFilterForm() = default;
 
  private:
   /// buildUi creates the window structure.
@@ -49,17 +49,7 @@ class EvidenceFilterForm : public QDialog {
   EvidenceFilters encodeForm();
 
  private:
-  QAction* closeWindowAction = nullptr;
-
   // UI Components
-  QGridLayout* gridLayout = nullptr;
-  QLabel* _operationLabel = nullptr;
-  QLabel* _contentTypeLabel = nullptr;
-  QLabel* _hadErrorLabel = nullptr;
-  QLabel* _wasSubmittedLabel = nullptr;
-  QLabel* _fromDateLabel = nullptr;
-  QLabel* _toDateLabel = nullptr;
-
   QComboBox* operationComboBox = nullptr;
   QComboBox* submittedComboBox = nullptr;
   QComboBox* erroredComboBox = nullptr;
@@ -69,4 +59,7 @@ class EvidenceFilterForm : public QDialog {
   QCheckBox* includeEndDateCheckBox = nullptr;
   QCheckBox* includeStartDateCheckBox = nullptr;
   QDialogButtonBox* buttonBox = nullptr;
+  void initializeTriCombobox(QComboBox *box);
+  void initializeDateEdit(QDateEdit *dateEdit);
+  void dateNormalize(bool isCondition = false);
 };
