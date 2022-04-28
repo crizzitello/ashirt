@@ -128,13 +128,10 @@ class EvidenceManager : public QDialog {
   QMenu* evidenceTableContextMenu = nullptr;
 
   QAction* submitEvidenceAction = nullptr;
-  QAction* deleteEvidenceAction = nullptr;
-  QAction* closeWindowAction = nullptr;
   QAction* copyPathToClipboardAction = nullptr;
   QAction* deleteTableContentsAction = nullptr;
 
   // UI Elements
-  QGridLayout* gridLayout = nullptr;
   QPushButton* editFiltersButton = nullptr;
   QPushButton* applyFilterButton = nullptr;
   QPushButton* resetFilterButton = nullptr;
@@ -145,4 +142,15 @@ class EvidenceManager : public QDialog {
   EvidenceEditor* evidenceEditor = nullptr;
   QProgressIndicator* loadingAnimation = nullptr;
   QSpacerItem* spacer = nullptr;
+  inline static const QStringList columnNames {
+      QStringLiteral("Date Captured")
+      , QStringLiteral("Operation")
+      , QStringLiteral("Path")
+      , QStringLiteral("Content Type")
+      , QStringLiteral("Description")
+      , QStringLiteral("Submitted")
+      , QStringLiteral("Date Submitted")
+      , QStringLiteral("Failed")
+      , QStringLiteral("Error")
+  };
 };
