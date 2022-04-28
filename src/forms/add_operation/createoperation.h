@@ -18,27 +18,18 @@ class CreateOperation : public QDialog {
   void show();
 
  private:
-  void buildUi();
-  void wireUi();
-
   void submitButtonClicked();
 
  private slots:
   void onRequestComplete();
-
-
   QString makeSlugFromName(QString name);
-//  void showEvent(QShowEvent *evt) override;
 
  private:
 
   QNetworkReply* createOpReply = nullptr;
 
   // ui elements
-  QGridLayout* gridLayout = nullptr;
-  QAction* closeWindowAction = nullptr;
   LoadingButton* submitButton = nullptr;
-  QLabel* _operationLabel = nullptr;
   QLabel* responseLabel = nullptr;
   QLineEdit* operationNameTextBox = nullptr;
 };
