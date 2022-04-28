@@ -105,13 +105,15 @@ static std::string normalBodyMarkdown() {
   // clang-format on
 }
 
-Credits::Credits(QWidget* parent) : QDialog(parent) {
+Credits::Credits(QWidget* parent)
+    : QDialog(parent)
+    , updateLabel(new QLabel(this))
+{
   buildUi();
   wireUi();
 }
 
 void Credits::updateRelease() {
-  static QString baseUpdateText = "A new update is available! Click <a href=\"%1\">here</a> for more details.";
   if (updateDigest.hasUpgrade()) {
     updateLabel->setText(baseUpdateText.arg(Constants::releasePageUrl()));
   }
@@ -121,20 +123,17 @@ void Credits::updateRelease() {
 }
 
 void Credits::buildUi() {
-  gridLayout = new QGridLayout(this);
-
-  updateLabel = new QLabel();
   updateLabel->setOpenExternalLinks(true);
   updateLabel->setTextFormat(Qt::RichText);
   updateLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
 
-  creditsArea = new QTextBrowser(this);
+  auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Close, this);
+  connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::close);
+
+  auto creditsArea = new QTextBrowser(this);
   creditsArea->setOpenExternalLinks(true);
   creditsArea->setReadOnly(true);
   creditsArea->setMarkdown(normalBodyMarkdown().c_str());
-
-  buttonBox = new QDialogButtonBox(this);
-  buttonBox->addButton(QDialogButtonBox::Close);
 
   // Layout
   /*                   0
@@ -149,43 +148,25 @@ void Credits::buildUi() {
        +------------------------------------+
   */
 
-  // row 0
+  auto gridLayout = new QGridLayout(this);
   gridLayout->addWidget(updateLabel, 0, 0);
-
-  // row 1
   gridLayout->addWidget(creditsArea, 1, 0);
-
-  // row 2
   gridLayout->addWidget(buttonBox, 2, 0);
+  setLayout(gridLayout);
 
-  closeWindowAction = new QAction(this);
-  closeWindowAction->setShortcut(QKeySequence::Close);
-  this->addAction(closeWindowAction);
-
-  this->setLayout(gridLayout);
-  this->resize(640, 500);
-  this->setWindowTitle("About");
+  addAction(QString(), QKeySequence::Close, this, &Credits::close);
+  resize(640, 500);
+  setWindowTitle("About");
 
   // Make the dialog pop up above any other windows but retain title bar and buttons
-  Qt::WindowFlags flags = this->windowFlags();
+  Qt::WindowFlags flags = windowFlags();
   flags |= Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowMinMaxButtonsHint |
            Qt::WindowCloseButtonHint;
-  this->setWindowFlags(flags);
+  setWindowFlags(flags);
 }
 
 void Credits::wireUi() {
-  connect(closeWindowAction, &QAction::triggered, this, &QDialog::close);
-  connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::close);
   connect(&NetMan::getInstance(), &NetMan::releasesChecked, this, &Credits::onReleasesUpdate);
-}
-
-Credits::~Credits() {
-  delete closeWindowAction;
-  delete updateLabel;
-  delete creditsArea;
-  delete buttonBox;
-
-  delete gridLayout;
 }
 
 void Credits::show()

@@ -17,7 +17,7 @@ class Credits : public QDialog {
 
  public:
   explicit Credits(QWidget *parent = nullptr);
-  ~Credits();
+  ~Credits() = default;
 
   /// show Overridden Show forces window to top
   void show();
@@ -35,14 +35,8 @@ class Credits : public QDialog {
   void updateRelease();
 
  private:
-  QAction* closeWindowAction = nullptr;
-
   // UI Components
-  QGridLayout* gridLayout = nullptr;
-  QTextBrowser* creditsArea = nullptr;
-  QDialogButtonBox* buttonBox = nullptr;
   QLabel* updateLabel = nullptr;
-
   dto::ReleaseDigest updateDigest;
-
+  inline static const QString baseUpdateText = QStringLiteral("A new update is available! Click <a href=\"%1\">here</a> for more details.");
 };
