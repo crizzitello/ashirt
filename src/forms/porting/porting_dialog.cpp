@@ -6,54 +6,22 @@
 #include <iostream>
 
 PortingDialog::PortingDialog(PortType dialogType, DatabaseConnection* db, QWidget *parent)
-  : QDialog(parent) {
-  this->dialogType = dialogType;
-  this->db = db;
-
-  buildUi();
-  wireUi();
-}
-
-PortingDialog::~PortingDialog() {
-  delete closeWindowAction;
-
-  delete _selectFileLabel;
-  delete portConfigCheckBox;
-  delete portEvidenceCheckBox;
-  delete submitButton;
-  delete pathTextBox;
-  delete progressBar;
-  delete portStatusLabel;
-
-  delete gridLayout;
-}
-
-void PortingDialog::buildUi() {
-  gridLayout = new QGridLayout(this);
-
-  _selectFileLabel = new QLabel(this);
-  portStatusLabel = new QLabel(this);
-
-  submitButton = new QPushButton(this);
-  browseButton = new QPushButton(tr("Browse"), this);
-  pathTextBox = new QLineEdit(this);
-  portConfigCheckBox = new QCheckBox(tr("Include Config"), this);
+  : QDialog(parent)
+  , dialogType(dialogType)
+  , db(db)
+  , portStatusLabel(new QLabel(this))
+  , submitButton(new QPushButton(dialogType == Import ? tr("Import") : tr("Export"), this))
+  , pathTextBox(new QLineEdit(this))
+  , portConfigCheckBox(new QCheckBox(tr("Include Config"), this))
+  , portEvidenceCheckBox(new QCheckBox(tr("Include Evidence"), this))
+  , progressBar(new QProgressBar(this))
+{
+  setWindowTitle(dialogType == Import ? tr("Import Data") : tr("Export Data"));
+  auto browseButton = new QPushButton(tr("Browse"), this);
+  connect(browseButton, &QPushButton::clicked, this, &PortingDialog::onBrowsePresed);
+  connect(submitButton, &QPushButton::clicked, this, &PortingDialog::onSubmitPressed);
   portConfigCheckBox->setChecked(true);
-  portEvidenceCheckBox = new QCheckBox(tr("Include Evidence"), this);
   portEvidenceCheckBox->setChecked(true);
-  progressBar = new QProgressBar(this);
-
-
-  if (dialogType == Import) {
-    submitButton->setText(tr("Import"));
-    _selectFileLabel->setText(tr("Select import file"));
-    this->setWindowTitle(tr("Import Data"));
-  }
-  else {
-    submitButton->setText(tr("Export"));
-    _selectFileLabel->setText(tr("Export Directory"));
-    this->setWindowTitle(tr("Export Data"));
-  }
 
   // Layout
   /*        0                 1           2
@@ -72,39 +40,24 @@ void PortingDialog::buildUi() {
        +---------------+-------------+--------------+
   */
 
-  // row 0
-  gridLayout->addWidget(_selectFileLabel, 0, 0);
+  auto gridLayout = new QGridLayout(this);
+  gridLayout->addWidget(new QLabel(dialogType == Import ? tr("Select import file") : tr("Export Directory"), this), 0, 0);
   gridLayout->addWidget(pathTextBox, 0, 1);
   gridLayout->addWidget(browseButton, 0, 2);
 
-  // row 1
   gridLayout->addWidget(portConfigCheckBox, 1, 0, 1, gridLayout->columnCount());
 
-  // row 2
   gridLayout->addWidget(portEvidenceCheckBox, 2, 0, 1, gridLayout->columnCount());
 
-  // row 3
   gridLayout->addWidget(progressBar, 3, 0, 1, gridLayout->columnCount());
 
-  // row 4
   gridLayout->addWidget(portStatusLabel, 4, 0, 1, gridLayout->columnCount());
 
-  // row 5
   gridLayout->addWidget(submitButton, 5, 2);
+  setLayout(gridLayout);
 
-  closeWindowAction = new QAction(this);
-  closeWindowAction->setShortcut(QKeySequence::Close);
-  this->addAction(closeWindowAction);
-
-  this->setLayout(gridLayout);
-  this->resize(500, 1);
-}
-
-void PortingDialog::wireUi() {
-  auto btnClicked = &QPushButton::clicked;
-
-  connect(submitButton, btnClicked, this, &PortingDialog::onSubmitPressed);
-  connect(browseButton, btnClicked, this, &PortingDialog::onBrowsePresed);
+  addAction(QString(), QKeySequence::Close, this, &PortingDialog::close);
+  resize(500, 1);
 }
 
 void PortingDialog::onBrowsePresed() {
@@ -137,7 +90,7 @@ void PortingDialog::resetForm() {
 
 void PortingDialog::onSubmitPressed() {
   if (portDone) {
-      this->close();
+      close();
       resetForm();
   }
   auto portingPath = pathTextBox->text().trimmed();

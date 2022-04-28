@@ -39,7 +39,7 @@ class PortingDialog : public QDialog {
    * @param parent is used by the underlying QDialog constructor
    */
   explicit PortingDialog(PortType dialogType, DatabaseConnection* db, QWidget *parent = nullptr);
-  ~PortingDialog();
+  ~PortingDialog() = default;
 
  public:
   /// getPortPath retrieves the path used to import or export (note: this is always directory, even
@@ -55,11 +55,6 @@ class PortingDialog : public QDialog {
   void portCompleted(QString path);
 
  private:
-  /// buildUi creates the window structure.
-  void buildUi();
-  /// wireUi connects the components to each other.
-  void wireUi();
-
   /// onSubmitPressed preps an import/export and routes the action to doImport or doExport
   void onSubmitPressed();
   /// onBrowsePressed renders a QFileDialog window (for opening). The behavior is specific for
@@ -97,15 +92,10 @@ class PortingDialog : public QDialog {
   /// Saved so that it can be cleaned up post-execution
   porting::SystemManifest* executedManifest = nullptr;
 
-  QAction* closeWindowAction = nullptr;
-
   // UI Components
-  QGridLayout* gridLayout = nullptr;
-  QLabel* _selectFileLabel = nullptr;
   QLabel* portStatusLabel = nullptr;
 
   QPushButton* submitButton = nullptr;
-  QPushButton* browseButton = nullptr;
   QLineEdit* pathTextBox = nullptr;
   QProgressBar* progressBar = nullptr;
   QCheckBox* portConfigCheckBox = nullptr;
