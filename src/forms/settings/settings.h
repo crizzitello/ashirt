@@ -5,7 +5,6 @@
 
 #include <QAction>
 #include <QCloseEvent>
-#include <QDialog>
 #include <QDialogButtonBox>
 #include <QErrorMessage>
 #include <QGridLayout>
@@ -16,6 +15,7 @@
 #include <QSpacerItem>
 #include <QKeySequenceEdit>
 
+#include "ashirtdialog/ashirtdialog.h"
 #include "components/loading_button/loadingbutton.h"
 #include "hotkeymanager.h"
 
@@ -23,7 +23,7 @@
  * @brief The Settings class represents the settings dialog that displays when
  * a user chooses the "settings" option in the tray menu
  */
-class Settings : public QDialog {
+class Settings : public AShirtDialog {
   Q_OBJECT
 
  public:
@@ -35,8 +35,6 @@ class Settings : public QDialog {
   explicit Settings(HotkeyManager* hotkeyManager, QWidget* parent = nullptr);
   ~Settings();
 
-  /// show Overridden Show forces window to top
-  void show();
  private:
   /// buildUi creates the window structure.
   void buildUi();
@@ -70,7 +68,6 @@ class Settings : public QDialog {
   HotkeyManager* hotkeyManager;
 
   QNetworkReply* currentTestReply = nullptr;
-  QAction* closeWindowAction = nullptr;
 
   // UI components
   QGridLayout* gridLayout = nullptr;

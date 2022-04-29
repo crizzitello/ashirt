@@ -4,19 +4,18 @@
 #pragma once
 
 #include <QComboBox>
-#include <QDialog>
 #include <QAction>
 #include <QGridLayout>
 #include <QLabel>
-#include <QComboBox>
 #include <QDateEdit>
 #include <QCheckBox>
 #include <QDialogButtonBox>
 
 #include "db/databaseconnection.h"
 #include "dtos/operation.h"
+#include "ashirtdialog/ashirtdialog.h"
 
-class EvidenceFilterForm : public QDialog {
+class EvidenceFilterForm : public AShirtDialog {
   Q_OBJECT
 
  public:

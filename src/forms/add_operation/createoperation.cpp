@@ -1,14 +1,19 @@
 #include "createoperation.h"
 
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QNetworkReply>
 #include <QRegularExpression>
 
+#include "appsettings.h"
+#include "dtos/ashirt_error.h"
+#include "components/loading_button/loadingbutton.h"
 #include "helpers/netman.h"
 #include "helpers/stopreply.h"
-#include "dtos/ashirt_error.h"
-#include "appsettings.h"
 
 CreateOperation::CreateOperation(QWidget* parent)
-    : QDialog(parent)
+    : AShirtDialog(parent, true)
     , submitButton(new LoadingButton(tr("Submit"), this))
     , responseLabel(new QLabel(this))
     , operationNameTextBox(new QLineEdit(this))
@@ -34,25 +39,12 @@ CreateOperation::CreateOperation(QWidget* parent)
     gridLayout->addWidget(submitButton, 2, 2);
     setLayout(gridLayout);
 
-    addAction(QString(), QKeySequence::Close, this, &CreateOperation::close);
     resize(400, 1);
     setWindowTitle(tr("Create Operation"));
-
-    Qt::WindowFlags flags = windowFlags();
-    flags |= Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowMinMaxButtonsHint |
-             Qt::WindowCloseButtonHint;
-    setWindowFlags(flags);
 }
 
 CreateOperation::~CreateOperation() {
   stopReply(&createOpReply);
-}
-
-void CreateOperation::show()
-{
-    QDialog::show(); // display the window
-    raise(); // bring to the top (mac)
-    activateWindow(); // alternate bring to the top (windows)
 }
 
 void CreateOperation::submitButtonClicked() {

@@ -3,7 +3,6 @@
 
 #include "getinfo.h"
 
-#include <QKeySequence>
 #include <QMessageBox>
 
 #include "appsettings.h"
@@ -13,7 +12,7 @@
 #include "helpers/ui_helpers.h"
 
 GetInfo::GetInfo(DatabaseConnection* db, qint64 evidenceID, QWidget* parent)
-    : QDialog(parent)
+    : AShirtDialog(parent, true)
     , db(db)
     , evidenceID(evidenceID)
     , submitButton(new LoadingButton(tr("Submit"), this))
@@ -58,16 +57,9 @@ void GetInfo::buildUi() {
   gridLayout->addWidget(submitButton, 1, 2);
   setLayout(gridLayout);
 
-  addAction(QString(), QKeySequence::Close, this, &GetInfo::close);
   setAttribute(Qt::WA_DeleteOnClose);
   resize(720, 480);
   setWindowTitle(tr("Add Evidence Details"));
-
-  // Make the dialog pop up above any other windows but retain title bar and buttons
-  Qt::WindowFlags flags = windowFlags();
-  flags |= Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowMinMaxButtonsHint |
-           Qt::WindowCloseButtonHint;
-  setWindowFlags(flags);
   setFocus(); // ensure focus is not on the submit button
 }
 

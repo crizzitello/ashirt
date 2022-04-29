@@ -34,7 +34,7 @@ void EvidenceFilterForm::dateNormalize(bool isCondition)
 }
 
 EvidenceFilterForm::EvidenceFilterForm(QWidget *parent)
-    : QDialog(parent)
+    : AShirtDialog(parent, false)
     , operationComboBox(new QComboBox(this))
     , submittedComboBox(new QComboBox(this))
     , erroredComboBox(new QComboBox(this))

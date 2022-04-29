@@ -4,13 +4,13 @@
 #pragma once
 
 #include <QAction>
-#include <QDialog>
 #include <QLineEdit>
 #include <QMenu>
 #include <QNetworkReply>
 #include <QTableWidget>
 #include <QTableWidgetItem>
 
+#include "ashirtdialog/ashirtdialog.h"
 #include "components/evidence_editor/evidenceeditor.h"
 #include "components/loading/qprogressindicator.h"
 #include "db/databaseconnection.h"
@@ -34,15 +34,12 @@ struct EvidenceRow {
  * @brief The EvidenceManager class represents the Evidence Manager window that is shown
  * when selecting "View Accumulated Evidence."
  */
-class EvidenceManager : public QDialog {
+class EvidenceManager : public AShirtDialog {
   Q_OBJECT
 
  public:
   explicit EvidenceManager(DatabaseConnection* db, QWidget* parent = nullptr);
   ~EvidenceManager();
-
-  /// show Overridden Show forces window to top
-  void show();
 
  private:
   /// buildUi constructs the window structure.
@@ -141,7 +138,6 @@ class EvidenceManager : public QDialog {
   QTableWidget* evidenceTable = nullptr;
   EvidenceEditor* evidenceEditor = nullptr;
   QProgressIndicator* loadingAnimation = nullptr;
-  QSpacerItem* spacer = nullptr;
   inline static const QStringList columnNames {
       QStringLiteral("Date Captured")
       , QStringLiteral("Operation")

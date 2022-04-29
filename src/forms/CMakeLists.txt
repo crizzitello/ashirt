@@ -1,5 +1,6 @@
 
 add_library (FORMS STATIC
+    ashirtdialog/ashirtdialog.cpp ashirtdialog/ashirtdialog.h
     add_operation/createoperation.cpp add_operation/createoperation.h
     credits/credits.cpp credits/credits.h
     evidence/evidencemanager.cpp evidence/evidencemanager.h

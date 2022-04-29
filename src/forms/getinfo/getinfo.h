@@ -5,7 +5,6 @@
 
 #include <QGridLayout>
 #include <QAction>
-#include <QDialog>
 #include <QNetworkReply>
 
 #include "components/evidence_editor/evidenceeditor.h"
@@ -13,12 +12,13 @@
 #include "components/loading_button/loadingbutton.h"
 #include "db/databaseconnection.h"
 #include "dtos/tag.h"
+#include "ashirtdialog/ashirtdialog.h"
 
 namespace Ui {
 class GetInfo;
 }
 
-class GetInfo : public QDialog {
+class GetInfo : public AShirtDialog {
   Q_OBJECT
 
  public:

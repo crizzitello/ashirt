@@ -3,11 +3,15 @@
 
 #include "credits.h"
 
+#include <QAction>
 #include <QDateTime>
-#include <QKeySequence>
+#include <QDialogButtonBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QTextBrowser>
 
-#include "helpers/netman.h"
 #include "helpers/constants.h"
+#include "helpers/netman.h"
 
 struct Attribution {
   std::string library;
@@ -106,7 +110,7 @@ static std::string normalBodyMarkdown() {
 }
 
 Credits::Credits(QWidget* parent)
-    : QDialog(parent)
+    : AShirtDialog(parent, true)
     , updateLabel(new QLabel(this))
 {
   buildUi();
@@ -154,26 +158,12 @@ void Credits::buildUi() {
   gridLayout->addWidget(buttonBox, 2, 0);
   setLayout(gridLayout);
 
-  addAction(QString(), QKeySequence::Close, this, &Credits::close);
   resize(640, 500);
   setWindowTitle("About");
-
-  // Make the dialog pop up above any other windows but retain title bar and buttons
-  Qt::WindowFlags flags = windowFlags();
-  flags |= Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowMinMaxButtonsHint |
-           Qt::WindowCloseButtonHint;
-  setWindowFlags(flags);
 }
 
 void Credits::wireUi() {
   connect(&NetMan::getInstance(), &NetMan::releasesChecked, this, &Credits::onReleasesUpdate);
-}
-
-void Credits::show()
-{
-    QDialog::show(); // display the window
-    raise(); // bring to the top (mac)
-    activateWindow(); // alternate bring to the top (windows)
 }
 
 void Credits::onReleasesUpdate(bool success, std::vector<dto::GithubRelease> releases) {

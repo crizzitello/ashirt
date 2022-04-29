@@ -5,7 +5,6 @@
 
 #include <QCheckBox>
 #include <QHeaderView>
-#include <QKeySequence>
 #include <QMessageBox>
 #include <QRandomGenerator>
 #include <QStandardPaths>
@@ -33,7 +32,7 @@ enum ColumnIndexes {
 };
 
 EvidenceManager::EvidenceManager(DatabaseConnection* db, QWidget* parent)
-    : QDialog(parent)
+    : AShirtDialog(parent, false)
     , db(db)
     , evidenceTable(new QTableWidget(this))
     , filterForm(new EvidenceFilterForm(this))
@@ -55,13 +54,6 @@ EvidenceManager::EvidenceManager(DatabaseConnection* db, QWidget* parent)
 
 EvidenceManager::~EvidenceManager() {
   stopReply(&uploadAssetReply);
-}
-
-void EvidenceManager::show()
-{
-    QDialog::show(); // display the window
-    raise(); // bring to the top (mac)
-    activateWindow(); // alternate bring to the top (windows)
 }
 
 void EvidenceManager::buildEvidenceTableUi() {
@@ -141,7 +133,6 @@ void EvidenceManager::buildUi() {
   gridLayout->addWidget(cancelEditButton, 3, 2);
   gridLayout->addWidget(editButton, 3, 3);
 
-  addAction(QString(), QKeySequence::Close, this, &EvidenceManager::close);
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
   resize(800, 600);
   setWindowTitle(tr("Evidence Manager"));

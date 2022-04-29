@@ -3,24 +3,17 @@
 
 #pragma once
 
-#include <QAction>
-#include <QDialog>
-#include <QLabel>
-#include <QTextBrowser>
-#include <QDialogButtonBox>
-#include <QGridLayout>
-
+#include "ashirtdialog/ashirtdialog.h"
 #include "dtos/github_release.h"
 
-class Credits : public QDialog {
+class QLabel;
+
+class Credits : public AShirtDialog {
   Q_OBJECT
 
  public:
   explicit Credits(QWidget *parent = nullptr);
   ~Credits() = default;
-
-  /// show Overridden Show forces window to top
-  void show();
 
  public slots:
   void onReleasesUpdate(bool success, std::vector<dto::GithubRelease> releases);

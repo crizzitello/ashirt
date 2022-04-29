@@ -2,7 +2,6 @@
 
 #include <QAction>
 #include <QCheckBox>
-#include <QDialog>
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -12,14 +11,14 @@
 
 #include "db/databaseconnection.h"
 #include "porting/system_manifest.h"
-
+#include "ashirtdialog/ashirtdialog.h"
 /**
  * @brief The PortingDialog class renders a dialog window allowing a user to import or export content and settings.
  * The UI presented is dependent on the underlying dialogType. Specifying Import will render an import window,
  * while Export will render an export window.
  * @see PortType
  */
-class PortingDialog : public QDialog {
+class PortingDialog : public AShirtDialog {
   Q_OBJECT
 
  public:
@@ -45,9 +44,6 @@ class PortingDialog : public QDialog {
   /// getPortPath retrieves the path used to import or export (note: this is always directory, even
   /// when Importing from a specific file)
   QString getPortPath();
-
-  /// show Overridden Show forces window to top.
-  void show();
 
  signals:
   /// portCompleted is called when an import or export finishes.

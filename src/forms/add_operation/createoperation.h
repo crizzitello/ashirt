@@ -1,21 +1,18 @@
 #pragma once
 
-#include <QAction>
-#include <QDialog>
-#include <QGridLayout>
-#include <QLabel>
-#include <QLineEdit>
-#include <QNetworkReply>
+#include "ashirtdialog/ashirtdialog.h"
 
-#include "components/loading_button/loadingbutton.h"
+class QLabel;
+class QLineEdit;
+class QNetworkReply;
+class LoadingButton;
 
-class CreateOperation : public QDialog {
+class CreateOperation : public AShirtDialog {
   Q_OBJECT
 
  public:
   explicit CreateOperation(QWidget *parent = nullptr);
   ~CreateOperation();
-  void show();
 
  private:
   void submitButtonClicked();
@@ -25,9 +22,7 @@ class CreateOperation : public QDialog {
   QString makeSlugFromName(QString name);
 
  private:
-
   QNetworkReply* createOpReply = nullptr;
-
   // ui elements
   LoadingButton* submitButton = nullptr;
   QLabel* responseLabel = nullptr;

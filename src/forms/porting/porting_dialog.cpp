@@ -6,7 +6,7 @@
 #include <iostream>
 
 PortingDialog::PortingDialog(PortType dialogType, DatabaseConnection* db, QWidget *parent)
-  : QDialog(parent)
+  : AShirtDialog(parent, false)
   , dialogType(dialogType)
   , db(db)
   , portStatusLabel(new QLabel(this))
@@ -146,13 +146,6 @@ void PortingDialog::onPortComplete(bool success) {
 
 QString PortingDialog::getPortPath() {
   return portPath;
-}
-
-void PortingDialog::show()
-{
-    QDialog::show(); // display the window
-    raise(); // bring to the top (mac)
-    activateWindow(); // alternate bring to the top (windows)
 }
 
 void PortingDialog::doExport(porting::SystemManifest* manifest, const QString& exportPath) {
