@@ -109,7 +109,6 @@ void EvidenceFilterForm::buildUi() {
 
   setLayout(gridLayout);
   setWindowTitle(tr("Evidence Filters"));
-  addAction(QString(), QKeySequence::Close, this, &EvidenceFilterForm::close);
   resize(320, 245);
 }
 

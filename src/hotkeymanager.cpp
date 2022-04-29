@@ -16,8 +16,6 @@ HotkeyManager::HotkeyManager(QObject * parent): QObject(parent) {
 }
 
 void HotkeyManager::registerKey(const QString& binding, GlobalHotkeyEvent evt) {
-  if(binding.isEmpty())
-      return;
   hotkeyManager->registerHotkey(binding, size_t(evt));
 }
 
@@ -47,7 +45,10 @@ void HotkeyManager::enableHotkeys() {
 
 void HotkeyManager::updateHotkeys() {
   hotkeyManager->unregisterAllHotkeys();
-  registerKey(AppConfig::getInstance().screenshotShortcutCombo, ACTION_CAPTURE_AREA);
-  registerKey(AppConfig::getInstance().captureWindowShortcut, ACTION_CAPTURE_WINDOW);
-  registerKey(AppConfig::getInstance().captureCodeblockShortcut, ACTION_CAPTURE_CODEBLOCK);
+  if(!AppConfig::getInstance().screenshotShortcutCombo.isEmpty())
+    registerKey(AppConfig::getInstance().screenshotShortcutCombo, ACTION_CAPTURE_AREA);
+  if(!AppConfig::getInstance().captureWindowShortcut.isEmpty())
+    registerKey(AppConfig::getInstance().captureWindowShortcut, ACTION_CAPTURE_WINDOW);
+  if(!AppConfig::getInstance().captureCodeblockShortcut.isEmpty())
+    registerKey(AppConfig::getInstance().captureCodeblockShortcut, ACTION_CAPTURE_CODEBLOCK);
 }

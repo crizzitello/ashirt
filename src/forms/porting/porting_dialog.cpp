@@ -56,7 +56,6 @@ PortingDialog::PortingDialog(PortType dialogType, DatabaseConnection* db, QWidge
   gridLayout->addWidget(submitButton, 5, 2);
   setLayout(gridLayout);
 
-  addAction(QString(), QKeySequence::Close, this, &PortingDialog::close);
   resize(500, 1);
 }
 

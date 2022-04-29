@@ -14,5 +14,8 @@ class AShirtDialog : public QDialog {
 
   /// show Overridden Show forces window to top
   void show();
+#if (QT_VERSION_MAJOR < 6)
+    QAction * closeWindowAction = nullptr;
+#endif
 
 };

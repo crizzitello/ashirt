@@ -132,11 +132,11 @@ void EvidenceManager::buildUi() {
   gridLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Minimum), 3, 1);
   gridLayout->addWidget(cancelEditButton, 3, 2);
   gridLayout->addWidget(editButton, 3, 3);
+  setLayout(gridLayout);
 
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
   resize(800, 600);
   setWindowTitle(tr("Evidence Manager"));
-  setLayout(gridLayout);
 }
 
 void EvidenceManager::wireUi() {
