@@ -15,10 +15,9 @@
 #include <QSpacerItem>
 #include <QKeySequenceEdit>
 
-#include "ashirtdialog/ashirtdialog.h"
 #include "components/loading_button/loadingbutton.h"
 #include "hotkeymanager.h"
-
+#include "ashirtdialog/ashirtdialog.h"
 /**
  * @brief The Settings class represents the settings dialog that displays when
  * a user chooses the "settings" option in the tray menu
@@ -70,16 +69,6 @@ class Settings : public AShirtDialog {
   QNetworkReply* currentTestReply = nullptr;
 
   // UI components
-  QGridLayout* gridLayout = nullptr;
-  QLabel* _eviRepoLabel = nullptr;
-  QLabel* _accessKeyLabel = nullptr;
-  QLabel* _secretKeyLabel = nullptr;
-  QLabel* _hostPathLabel = nullptr;
-  QLabel* _captureAreaCmdLabel = nullptr;
-  QLabel* _captureAreaShortcutLabel = nullptr;
-  QLabel* _captureWindowCmdLabel = nullptr;
-  QLabel* _captureWindowShortcutLabel = nullptr;
-  QLabel* _recordCodeblockShortcutLabel = nullptr;
   QLabel* connStatusLabel = nullptr;
 
   QLineEdit* eviRepoTextBox = nullptr;
@@ -94,8 +83,5 @@ class Settings : public AShirtDialog {
   LoadingButton* testConnectionButton = nullptr;
   QPushButton* eviRepoBrowseButton = nullptr;
   QPushButton* clearHotkeysButton = nullptr;
-  QDialogButtonBox* buttonBox = nullptr;
-
   QErrorMessage* couldNotSaveSettingsMsg = nullptr;
-  QSpacerItem* spacer = nullptr;
 };
