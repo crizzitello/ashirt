@@ -16,7 +16,6 @@ void handleCLI(std::vector<std::string> args);
 #include "appconfig.h"
 #include "appsettings.h"
 #include "db/databaseconnection.h"
-#include "exceptions/databaseerr.h"
 #include "exceptions/fileerror.h"
 #include "traymanager.h"
 
@@ -31,6 +30,10 @@ int main(int argc, char* argv[]) {
 #ifdef Q_OS_WIN
   QCoreApplication::setOrganizationName("ashirt");
 #endif
+  if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
+      QTextStream(stderr) << "SQLite driver is unavailable";
+      return -1;
+  }
 
   DatabaseConnection* conn;
   try {
@@ -41,10 +44,7 @@ int main(int argc, char* argv[]) {
     QTextStream(stderr) << err.what() << Qt::endl;
     return -1;
   }
-  catch (DBDriverUnavailableError& err) {
-    QTextStream(stderr) << err.what() << Qt::endl;
-    return -1;
-  }
+
   catch (QSqlError& e) {
     QTextStream(stderr) << e.text() << Qt::endl;
     return -1;
@@ -66,10 +66,16 @@ int main(int argc, char* argv[]) {
     qRegisterMetaType<model::Tag>();
 
     app.setWindowIcon(getWindowIcon());
+
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
       handleCLI(std::vector<std::string>(argv, argv + argc));
     }
     QApplication::setQuitOnLastWindowClosed(false);
+
+    QObject::connect(&app, &QApplication::aboutToQuit, [conn] {
+        conn->close();
+        delete conn;
+    });
 
     auto window = new TrayManager(nullptr, conn);
     rtn = app.exec();
@@ -82,9 +88,6 @@ int main(int argc, char* argv[]) {
   catch (...) {
     QTextStream(stderr) << "Unhandled exception while running" << Qt::endl;
   }
-  conn->close();
-  delete conn;
-
   return rtn;
 }
 
